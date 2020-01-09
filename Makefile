@@ -8,9 +8,9 @@ FLAGS = -Wall -g
 
 all: frequency
 
-frequency: main.o 
+frequency: main.o trie.o
 	$(CC) $(FLAGS) -o frequency $^ -I.
-main.o: main.c trie.o trie.h
+main.o: main.c trie.h
 	$(CC) $(FLAGS) -c -o $@ $< -I.
 trie.o: trie.c
 	$(CC) $(FLAGS) -fPIC -c -o $@ $< -I.		

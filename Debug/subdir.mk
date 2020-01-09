@@ -7,6 +7,10 @@ C_SRCS += \
 ../main.c \
 ../trie.c 
 
+O_SRCS += \
+../main.o \
+../trie.o 
+
 OBJS += \
 ./main.o \
 ./trie.o 
@@ -20,7 +24,7 @@ C_DEPS += \
 %.o: ../%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	gcc -I"/home/oriel/eclipse-workspace/hw4_trie" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

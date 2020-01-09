@@ -1,1 +1,0 @@
-trie.o: ../trie.c

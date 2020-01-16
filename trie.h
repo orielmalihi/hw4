@@ -9,13 +9,13 @@
 #define TRIE_H_
 
 #define NUM_LETTERS ((int)26)
-#define WORD_LENGTH 30
 
 typedef enum {FALSE = 0, TRUE = 1} boolean;
 
 typedef struct node {
 	char letter;
-	char word[WORD_LENGTH];
+	char* word;
+	int wordSize;
 	long unsigned int count;
 	struct node* children[NUM_LETTERS];
 } node;

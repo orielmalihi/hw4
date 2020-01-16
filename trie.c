@@ -11,7 +11,6 @@
 
 #define NUM_LETTERS ((int)26)
 #define LETTER_OFFSET 97
-#define WORD_LENGTH 30
 #define PRE_ORDER 1
 #define POST_ORDER 0
 
@@ -21,7 +20,9 @@
  */
 node* Trie_alloc(){
 	node* p = (node*)calloc(1,sizeof(node));
-//	printf("aloc complete\n");
+	p->wordSize = 2;
+	p->word = calloc(1,2*sizeof(char));
+	//	printf("aloc complete\n");
 	return p;
 }
 
@@ -29,20 +30,30 @@ node* Trie_alloc(){
  * this function adds a word to the trie
  */
 void addWord(node* head, char* str){
-	node* current = head;
+	node* parent = head;
+	node* son;
 	while(*str){
 		char c = *str;
-		if(current->children[c-LETTER_OFFSET] == NULL){
-			current->children[c-LETTER_OFFSET] = (node*)calloc(1, sizeof(node));
-			current->children[c-LETTER_OFFSET]->letter = c;
-			strcpy(current->children[c-LETTER_OFFSET]->word, current->word);
-			int index_last = strlen(current->children[c-LETTER_OFFSET]->word);
-			current->children[c-LETTER_OFFSET]->word[index_last] = c;
+		son = parent->children[c-LETTER_OFFSET];
+		if(son == NULL){
+			son = (node*)calloc(1, sizeof(node));
+			son->wordSize = parent->wordSize;
+			son->word = (char*)calloc(1, son->wordSize);
+			son->letter = c;
+			strcpy(son->word, parent->word);
+			int index_last = strlen(son->word);
+			if(index_last == son->wordSize-1){
+				son->wordSize += 20;
+				son->word = realloc(son->word,son->wordSize);
+			}
+			son->word[index_last] = c;
+			son->word[index_last+1] = 0;
+			parent->children[c-LETTER_OFFSET] = son;
 		}
-		current = current->children[c-LETTER_OFFSET];
+		parent = son;
 		str++;
 	}
-	current->count++;
+	parent->count++;
 }
 
 /**
@@ -55,13 +66,14 @@ void freeTrie(node* head){
 	for(int i = 0; i<NUM_LETTERS; i++){
 		freeTrie(head->children[i]);
 	}
+	free(head->word);
 	free(head);
 	return;
 }
 
 /**
- * this function prints the trie pre-order for order  = 1, and
- * post-order for order = 0.
+ * this function prints the trie pre-order for order = 1,
+ *  and post-order for order = 0.
  */
 
 void printTrie(node* head, int order){

@@ -5,10 +5,10 @@
  *      Author: oriel
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <trie.h>
 
-#define WORD 30
 
 int main(int argc, char *argv[]){
 	/**
@@ -23,7 +23,8 @@ int main(int argc, char *argv[]){
 	 */
 	node* trie_head = Trie_alloc();
 	char c = 0;
-	char word[WORD];
+	int size = 10;
+	char* word = calloc(1,size*sizeof(char));
 	/**
 	 * get word from the buffer and insert to the trie
 	 */
@@ -31,6 +32,10 @@ int main(int argc, char *argv[]){
 		int index = 0;
 		while(c!='\n' && c!='\t' && c!=' '){
 			if(c >= 97 && c<= 122){
+				if(index==size-1){
+					size += 20;
+					word = realloc(word, size);
+				}
 				word[index] = c;
 				index++;
 			}
@@ -46,6 +51,7 @@ int main(int argc, char *argv[]){
 	 */
 	printTrie(trie_head, order);
 	freeTrie(trie_head);
+	free(word);
 	return 0;
 }
 

@@ -7,10 +7,6 @@ C_SRCS += \
 ../main.c \
 ../trie.c 
 
-O_SRCS += \
-../main.o \
-../trie.o 
-
 OBJS += \
 ./main.o \
 ./trie.o 

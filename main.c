@@ -31,6 +31,9 @@ int main(int argc, char *argv[]){
 	while((c = getchar()) != EOF){
 		int index = 0;
 		while(c!='\n' && c!='\t' && c!=' '){
+			if(c>= 65 &&  c<=90){
+				c += 32;
+			}
 			if(c >= 97 && c<= 122){
 				if(index==size-1){
 					size += 20;
